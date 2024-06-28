@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createProduct,
+  deleteProduct,
   readProduct,
   updateProduct,
 } from "../redux/productsSlice";
@@ -53,7 +54,13 @@ const ProductsList = () => {
     }
   };
 
-  const handleDeleteProduct = () => {};
+  const handleDeleteProduct = (id) => {
+    dispatch(deleteProduct(id));
+
+    axios
+      .delete(`http://localhost:3001/products/${id}`)
+      .catch((err) => console.error(err));
+  };
 
   return (
     <>
@@ -79,7 +86,9 @@ const ProductsList = () => {
                 <button onClick={() => setEditedProduct(product)}>
                   Editar
                 </button>
-                <button>Eliminar</button>
+                <button onClick={() => handleDeleteProduct(product.id)}>
+                  Eliminar
+                </button>
               </div>
             )}
           </li>
